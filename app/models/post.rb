@@ -3,6 +3,10 @@ class Post < ApplicationRecord
   has_many :like
   belongs_to :user
 
+  after_save :increment_user_posts_count
+
+  private
+  
   def increment_user_posts_count
     user.increment!(:posts_counter)
   end
