@@ -20,10 +20,10 @@ RSpec.describe User, type: :model do
 
   it ':recent posts should return 3 posts even if there are more posts to gather' do
     subject.save
-    Post.create(user: subject, title: 'Cool title', text: 'text for post 1')
-    Post.create(user: subject, title: 'Cool title x2', text: 'text for post 2')
-    Post.create(user: subject, title: 'Cool title x3', text: 'text for post 3')
-    Post.create(user: subject, title: 'Cool title x4', text: 'text for post 4')
+    Post.create(user: subject, title: 'Cool title', body: 'text for post 1')
+    Post.create(user: subject, title: 'Cool title x2', body: 'text for post 2')
+    Post.create(user: subject, title: 'Cool title x3', body: 'text for post 3')
+    Post.create(user: subject, title: 'Cool title x4', body: 'text for post 4')
     expect(subject.recent_posts.size).to eq(3)
   end
 end
