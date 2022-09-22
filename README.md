@@ -8,7 +8,7 @@ This setup and run procedure assumes you have Ruby, Ruby on rails framework, Rub
 
 - clone the repository `$ git clone https://github.com/Gnwin/blogapp2.git`
 - go to the project directory `$ cd blogapp`
-- switch to f/forms branch with `git checkout f/process-data`
+- switch to f/forms branch with `git checkout f/validations-modelspecs`
 - run `bundle install`
 - start the server with this command: `rails server`
 
