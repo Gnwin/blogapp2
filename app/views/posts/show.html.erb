@@ -1,2 +1,15 @@
 <h1>Hola, User</h1>
 <h2>Welcome to the post/show page</h2>
+
+<div class="post_body">
+  <%=render partial: 'partials/post_expanded', locals: { post:@post, user: @user }%>
+  <%= form_with url: "/users/#{@user.id}/posts/#{@post.id}/likes" do |like|%>
+    <%=like.submit "Like Post"%>
+    <div class="post_comments">
+      <div>Comments </div>
+      <%@comments.each do |comment|%>
+        <div><%="#{comment.user.name}: #{comment.text}"%></div>
+      <%end%>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,8 @@
+<div class='post_card'>
+  <div>
+  <%= link_to "Post #{index + 1}", "/users/#{user.id}/posts/#{post.id}"%>
+  </div>
+  <div class='post_body'><%="#{post.body}"%></div>
+  <div class='post_details'><%="Comments: #{post.comments_counter}, Likes: #{post.likes_counter}"%></div>
+  
+</div>
