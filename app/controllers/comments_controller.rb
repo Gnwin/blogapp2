@@ -4,10 +4,10 @@ class CommentsController < ApplicationController
     p params
     @user = current_user
     @post = Post.find(params[:post_id])
-    @comment = Comment.new(params.require(:comment).permit(:text))
+    @comment = Comment.new(params.require(:comment).permit(:body))
     @comment.user = @user
     @comment.post = @post
-    p "got to end of variables user #{@user.name} post #{@post.text} comment on #{@comment.post.id}"
+    p "got to end of variables user #{@user.name} post #{@post.body} comment on #{@comment.post.id}"
 
     if @comment.save
       flash[:success] = 'New Post saved successfully!'
