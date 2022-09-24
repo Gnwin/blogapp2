@@ -8,8 +8,9 @@
     <div class="post_comments">
       <div>Comments </div>
       <%@comments.each do |comment|%>
-        <div><%="#{comment.user.name}: #{comment.text}"%></div>
+        <div><%="#{comment.user.name}: #{comment.body}"%></div>
       <%end%>
     </div>
   <% end %>
+  <button type='button'><%= link_to "Comment", new_user_post_comment_path(@user, @post) %></button>
 </div>
