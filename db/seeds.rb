@@ -19,9 +19,7 @@
 first_user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.', email:
   'nwgwin@gmail.com', password: 'godwin', password_confirmation: 'godwin')
 
-second_user = User.create(name: 'Lily', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Portugal.', email:
+User.create(name: 'Lily', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Portugal.', email:
   'chioma@gmail.com', password: 'chioma', password_confirmation: 'chioma')
 
-first_post = Post.create(user_id: first_user.id, title: 'Hello', body: 'This is my first post')
-
-
+Post.create(user_id: first_user.id, title: 'Hello', body: 'This is my first post')
