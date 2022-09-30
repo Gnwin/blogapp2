@@ -1,9 +1,13 @@
 class PostsController < ApplicationController
+  POSTS_PER_PAGE = 2
+
   def index
+    @page = params.fetch(:page, 0).to_i
+    @page = 0 if @page.negative? || @page > (Post.count / POSTS_PER_PAGE)
+
     @user = User.find(params[:user_id])
     @posts = Post.where(user: params[:user_id])
-    @all_posts = Post.where(user: params[:user_id])
-    @comments = Comment.where(post_id: params[:user_id])
+    @all_posts = @user.posts
   end
 
   def show
