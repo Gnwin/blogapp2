@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
-  has_many :comment
-  has_many :like
+  has_many :comments
+  has_many :likes
   belongs_to :user
 
   after_save :increment_user_posts_count
@@ -16,6 +16,6 @@ class Post < ApplicationRecord
   end
 
   def recent_comments
-    comment.order(created_at: :desc).limit(5)
+    comments.order(created_at: :desc).limit(5)
   end
 end
