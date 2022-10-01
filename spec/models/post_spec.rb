@@ -1,32 +1,64 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  user = User.create(name: 'Henry', photo: 'https://www.coolpicturehostingsite.com/', bio: 'Pretty cool guy!')
+  subject do
+    user = User.new(
+      name: 'Tom',
+      photo: 'https://unsplash.com/photos/F_-0BxGuVvo',
+      bio: 'Teacher from Mexico.',
+      posts_counter: 0
+    )
 
-  subject { Post.new(user:, title: 'Cool title', body: 'Sweet text') }
+    Post.create(
+      author: user,
+      title: 'Hello',
+      text: 'This is my first post',
+      comments_counter: 0,
+      likes_counter: 0
+    )
+  end
 
   before { subject.save }
 
-  it 'Post should be valid' do
-    expect(subject).to be_valid
-  end
+  describe 'Posts' do
+    it 'should return a title' do
+      subject.title = nil
+      expect(subject).to_not be_valid
+    end
 
-  it 'title should be under 250 characters in length' do
-    expect(subject.title.size).to be < 250
-  end
+    it 'should not be greater than 250 in length' do
+      subject.title = 'tom' * 100
+      expect(subject).to_not be_valid
+    end
 
-  it ':recent_comments should return 5 posts even if there are more posts to gather' do
-    Comment.create(body: 'text for post 1', user:, post: subject)
-    Comment.create(body: 'text for post 2', user:, post: subject)
-    Comment.create(body: 'text for post 3', user:, post: subject)
-    Comment.create(body: 'text for post 4', user:, post: subject)
-    Comment.create(body: 'text for post 5', user:, post: subject)
-    Comment.create(body: 'text for post 6', user:, post: subject)
-    expect(subject.recent_comments.size).to eq(5)
-  end
+    it 'should be an integer - comments counter' do
+      expect(subject.comments_counter).to be_a(Integer)
+    end
 
-  it 'expect post counter to increment' do
-    subject.save
-    expect(user.posts_counter).to eq(5)
+    it 'should be greater than 0 - comments counter' do
+      subject.comments_counter = -1
+      expect(subject).to_not be_valid
+    end
+
+    it 'should be an integer - likes counter' do
+      expect(subject.likes_counter).to be_a(Integer)
+    end
+
+    it 'should be greater than 0 - likes counter' do
+      subject.likes_counter = -1
+      expect(subject).to_not be_valid
+    end
+
+    it 'should return only five recent comments' do
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 1)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 2)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 3)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 4)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 5)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 6)
+      Comment.create(post: subject, author: subject.author, text: 'comment', id: 7)
+
+      expect(subject.five_recent_comments.length).to eql 5
+    end
   end
 end

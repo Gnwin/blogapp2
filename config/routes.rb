@@ -1,18 +1,19 @@
 Rails.application.routes.draw do
+  devise_for :users
+  # get 'posts/id'
+  # get 'posts/show'
+  # get 'users/id'
+  # get 'users/show'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  root 'users#index'
-
-  # get '/users', to: 'users#index'
-  # get '/users/:id', to: 'users#show'
-  # get '/users/:user_id/posts' => 'posts#index', as: :user_posts
-  # get '/users/:user_id/posts/:id' => 'posts#show', as: :user_post
+  root 'users#index' # default page
 
   resources :users, only: %i[index show] do
     resources :posts, only: %i[index show new create] do
-      resources :comments, only: %i[new create]
-      resources :likes, only: [:create]
+      post '/likes/:id/like' => 'likes#create', as: :likes
+      post '/comments/:id/comment' => 'comments#create', as: :comments
     end
   end
+  resources :posts, only: %i[new create]
+  resources :likes, only: [:create]
 end

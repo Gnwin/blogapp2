@@ -1,21 +1,29 @@
 class Post < ApplicationRecord
+  belongs_to :author, class_name: 'User'
   has_many :comments
   has_many :likes
-  belongs_to :user
-
-  after_save :increment_user_posts_count
 
   validates :title, presence: true
-  validates :title, length: { maximum: 250, too_long: 'The maximum characters allowed for a Title is 250 characters' }
-  validates :body, presence: true, length: { maximum: 4000 }
-  validates :comments_counter, comparison: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :likes_counter, comparison: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :title, length: { maximum: 250 }
+  validates :comments_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :likes_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  def increment_user_posts_count
-    user.increment!(:posts_counter)
+  after_initialize :update_counters
+
+  after_save :update_posts_counter
+
+  def five_recent_comments
+    Comment.where(post: self).limit(5)
   end
 
-  def recent_comments
-    comments.order(created_at: :desc).limit(5)
+  def update_counters
+    self.comments_counter ||= 0
+    self.likes_counter ||= 0
+  end
+
+  private
+
+  def update_posts_counter
+    author.increment!(:posts_counter)
   end
 end

@@ -1,30 +1,19 @@
-<h1>Hola, User</h1>
-<h2>Welcome to the posts/index page</h2>
+<div>
+    <h1>View All Posts</h1>
+    <p><%= image_tag @user.photo%> <%= @user.name %></p>
+    <p>Number of Posts: <%= @user.posts_counter%>
+</div>
 
-<div class='user_body'>
-  <%=render partial: 'partials/user_card', locals: { user: @user }%>
-  
-  <div class='top_post_list'>
-    <%@all_posts.each_with_index do |post, index|%>
-    <%=render partial: 'partials/post_card', locals: { post: post, index: index, user: @user }%> 
-    <%post.recent_comments.each do |comment|%>
-        <div><%="#{comment.user.name}: #{comment.body}"%></div>
-      <%end%>
-    <%end%>
+<div>
+    <% @posts.each do |post| %>
+        <%= link_to user_post_path(@user, post) do %>
+            <button> <%= post.title %> <%= post.text %> Comments: <%= post.comments_counter%> Likes: <%= post.likes_counter%></button><br>
+        <% end %>
+    <% end %>
+</div>
 
-    <%if @user.posts_counter == 0%>
-      <div>No posts to show</div>
-    <%end%>
-    <button type='button'><%= link_to "Create new post", new_user_post_path(@user) %></button>
-
-    <div class="pagination">
-      <div class="btn">
-        <%=link_to "Previous Page", user_posts_path(@user, page: @page - 1)%>
-      </div>
-      <p><%=@page + 1%></p>
-      <div class="btn">
-        <%=link_to "Next Page", user_posts_path(@user, page: @page + 1)%>
-      </div>
-    </div>
-  </div>
+<div>
+    <%= link_to user_posts_path(@user) do %>
+        <button>Pagination</button>
+    <% end %>
 </div>

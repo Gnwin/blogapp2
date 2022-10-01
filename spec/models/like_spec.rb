@@ -1,15 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Like, type: :model do
-  user = User.create(name: 'George', photo: 'www.sweetimage.com', bio: 'Super smart')
-  post = Post.create(user:, title: 'Title', body: 'sweet text!')
+  subject do
+    author = User.new(
+      name: 'Tom',
+      photo: 'https://unsplash.com/photos/F_-0BxGuVvo',
+      bio: 'Teacher from Mexico.',
+      posts_counter: 0
+    )
 
-  subject { Like.new(user:, post:) }
+    post = Post.new(
+      author:,
+      title: 'Hello',
+      text: 'This is my first post',
+      comments_counter: 0,
+      likes_counter: 0
+    )
 
-  before { subject.save }
+    Like.create(
+      post:,
+      author:
+    )
+  end
 
-  it 'should increment post likes_counter' do
-    subject.save
-    expect(post.likes_counter).to eq(2)
+  describe 'Likes' do
+    it 'should update likes counter' do
+      expect(subject.send(:update_likes_counter)).to be_valid
+    end
   end
 end
