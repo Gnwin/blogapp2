@@ -1,18 +1,27 @@
-<h1>Hola, User</h1>
-<h2>Welcome to the user/show page</h2>
+<div>
+    <%= image_tag @user.photo%>
+    <%= @user.name %> 
+</div>
 
-<div class='user_body'>
-  <%=render partial: 'partials/user_card', locals: { user: @user }%>
-  
-  <div class='bio'>
-    <p>Bio</p>
-    <div class='bio_text'><%=@user.bio%></div>
-  </div>
-  
-  <div class='top_post_list'>
-    <%@recent_posts.each_with_index do |post, index|%>
-    <%=render partial: 'partials/post_card', locals: { post: post, index: index, user: @user }%> 
-    <%end%>
-    <button type='button'><%= link_to "See all posts", user_posts_path(@user) %></button>
-  <div>
+<div>
+    <p>Bio: <%=@user.bio%></p>
+    <p>Number of Posts: <%= @user.posts_counter%></p>
+
+    <div>
+    <% @user.three_recent_posts.each do |post| %>
+        <li> <%= post.title %> <%= post.text %> Comments: <%= post.comments_counter%> Likes: <%= post.likes_counter%></li><br>
+    <% end %>
+    </div>
+</div>
+
+<div>
+    <%= link_to user_posts_path(@user) do %>
+        <button>See all posts</button>
+    <% end %>
+</div>
+
+<div>
+    <%= link_to users_path(@user) do %>
+        <button>Home</button>
+    <% end %>
 </div>
