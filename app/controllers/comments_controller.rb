@@ -8,9 +8,7 @@ class CommentsController < ApplicationController
     @comment = Comment.new(author: current_user, post: @post, text: params[:text])
     respond_to do |format|
       format.html do
-        if @comment.save
-          redirect_to user_post_path(current_user, @post)
-        end
+        redirect_to user_post_path(current_user, @post) if @comment.save
       end
     end
   end
